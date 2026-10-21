@@ -1,0 +1,9 @@
+node_modules/
+assessment.db
+assessment.db-shm
+assessment.db-wal
+.vercel/
+.env
+.env.*
+!.env.example
+npm-debug.log*

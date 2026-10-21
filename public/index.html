@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Digital Assessment Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">SD</div>
+      <div><b>Secure Digital Assessment</b><small>Educational Assessment Platform</small></div>
+    </div>
+    <nav id="mainNav">
+      <button class="nav active" data-page="dashboard">Dashboard</button>
+      <button class="nav" data-page="exams">Exams</button>
+      <button class="nav" data-page="create">Create Exam</button>
+      <button class="nav" data-page="results">Results</button>
+      <button class="nav" data-page="analytics">Analytics</button>
+      <button class="nav" data-page="monitoring">Live monitoring</button>
+      <button id="logoutBtn" class="nav logout-btn" type="button">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="login" class="page active">
+      <div class="login-shell">
+        <div class="login-card">
+          <span class="pill">SECURE ACCESS</span>
+          <h2>Sign in to your workspace</h2>
+          <p class="login-intro">Secure assessment management for instructors and students.</p>
+          <div class="login-form">
+            <label>Username
+              <input id="loginUsername" type="text" placeholder="teacher or student" value="teacher">
+            </label>
+            <label>Password
+              <input id="loginPassword" type="password" placeholder="Enter password" value="teacher123">
+            </label>
+            <button id="loginBtn" class="primary login-submit" type="button">Sign in</button>
+          </div>
+          <div class="demo-creds">
+            <strong>Demo accounts</strong>
+            <p>Teacher: teacher / teacher123</p>
+            <p>Student: student / student123</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="page">
+      <div class="hero">
+        <div>
+          <span class="pill">FULL STACK DEVELOPMENT PROJECT</span>
+          <h1>Secure Digital<br><span>Assessment Platform</span></h1>
+          <p>Secure online examinations with automated evaluation, proctoring, performance analytics and academic integrity monitoring.</p>
+          <button id="takeExamButton" class="primary" type="button">Take an Exam →</button>
+        </div>
+        <div class="hero-card">
+          <div class="shield">✓</div>
+          <h3>Assessment Security</h3>
+          <p>Authentication • Proctoring • Integrity Monitoring</p>
+        </div>
+      </div>
+      <div class="welcome-row"><div><span class="eyebrow">WORKSPACE OVERVIEW</span><h2>Your assessment workspace</h2><p>Review examinations, outcomes, and platform activity.</p></div><button id="openMonitoringButton" class="secondary" type="button">Open live monitoring</button></div>
+      <div class="stats">
+        <div class="stat"><b id="examCount">0</b><span>Available Exams</span></div>
+        <div class="stat"><b id="attemptCount">0</b><span>Total Attempts</span></div>
+        <div class="stat"><b id="avgScore">0%</b><span>Average Score</span></div>
+        <div class="stat"><b id="violationCount">0</b><span>Integrity Alerts</span></div>
+      </div>
+      <div class="grid3">
+        <div class="feature"><div class="icon">🔐</div><h3>Secure Authentication</h3><p>Role-based access for administrators and students.</p></div>
+        <div class="feature"><div class="icon">🤖</div><h3>Automated Evaluation</h3><p>MCQ answers are evaluated instantly for quick results.</p></div>
+        <div class="feature"><div class="icon">📹</div><h3>Proctoring</h3><p>Camera, fullscreen and tab-visibility monitoring during exams.</p></div>
+      </div>
+    </section>
+
+    <section id="exams" class="page">
+      <div class="section-head"><div><span class="pill">STUDENT MODULE</span><h2>Available Examinations</h2></div></div>
+      <div id="examList" class="cards"></div>
+    </section>
+
+    <div id="studentModal" class="student-modal hidden" aria-modal="true" role="dialog">
+      <div class="student-modal-box">
+        <span class="eyebrow">BEFORE YOU BEGIN</span>
+        <h3>Examination monitoring notice</h3>
+        <p class="notice-copy">This exam records permitted page visibility, focus, fullscreen, clipboard and camera availability events. Camera video is displayed locally and is not recorded. If your camera stops, you have 20 seconds to restore it; after that the exam will lock and you must contact your instructor. Browser monitoring cannot see other apps or determine misconduct.</p>
+        <label class="consent-check"><input id="monitoringConsent" type="checkbox"> I understand the monitoring notice and want to continue.</label>
+        <div class="modal-actions">
+          <button id="cancelExamButton" class="secondary" type="button">Cancel</button>
+          <button id="confirmExamButton" class="primary" type="button">Continue to exam</button>
+        </div>
+      </div>
+    </div>
+
+    <section id="create" class="page">
+      <div class="section-head"><div><span class="pill">ADMIN MODULE</span><h2>Create Examination</h2></div></div>
+      <div class="form-card">
+        <div class="form-grid">
+          <label>Exam Title<input id="examTitle" placeholder="e.g. Web Technology Assessment"></label>
+          <label>Subject<input id="examSubject" placeholder="e.g. Full Stack Development"></label>
+          <label>Duration (minutes)<input id="examDuration" type="number" min="1" value="10"></label>
+          <label>Assign to Student Username<input id="assignedTo" value="student" placeholder="student"></label>
+        </div>
+        <h3>Questions</h3>
+        <div id="questionBuilder"></div>
+        <button id="addQuestionButton" class="secondary" type="button">+ Add Question</button>
+        <button id="createExamButton" class="primary" type="button">Create Exam</button>
+      </div>
+    </section>
+
+    <section id="take" class="page">
+      <div class="exam-layout">
+        <div class="exam-main">
+          <div class="exam-top">
+            <div><span class="pill">LIVE EXAM</span><h2 id="takeTitle"></h2><p id="takeSubject"></p></div>
+            <div class="timer" id="timer">10:00</div>
+          </div>
+          <div id="examLockNotice" class="exam-lock-notice" role="alert" hidden>Exam locked: your camera was not restored within 20 seconds. Contact your instructor for assistance. Your answers have not been submitted.</div>
+          <fieldset id="questionSet" class="question-set"><div id="questions"></div></fieldset>
+          <button id="submitExamButton" class="primary submit-btn" type="button">Submit Examination</button>
+        </div>
+        <aside class="proctor">
+          <h3>Camera preview</h3>
+          <video id="camera" autoplay muted></video>
+          <div id="proctorStatus" class="status">Camera permission required</div>
+          <div id="cameraWarning" class="camera-warning" role="alert" aria-live="assertive" hidden></div>
+          <button id="screenShareButton" class="secondary screen-share-button" type="button">Share exam display (optional)</button>
+          <div id="screenShareStatus" class="privacy-note">Screen sharing is not active. Your browser will ask you to choose a display.</div>
+          <div class="integrity-box"><b>Recorded monitoring events</b><strong id="violations">0</strong><small>Events are signals for review, not proof of misconduct.</small></div>
+          <button id="retryCameraButton" class="secondary screen-share-button" type="button">Retry camera</button>
+          <p class="privacy-note">Camera video is processed locally and not uploaded or stored. If camera access stops, restore it within 20 seconds to continue.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="results" class="page">
+      <div class="section-head"><div><span class="pill">REPORTS</span><h2>Centralized Results</h2></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Student</th><th>Exam</th><th>Score</th><th>Percentage</th><th>Alerts</th><th>Date</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+    </section>
+
+    <section id="analytics" class="page">
+      <div class="section-head"><div><span class="pill">PERFORMANCE</span><h2>Performance Analytics</h2></div></div>
+      <div class="analytics-grid">
+        <div class="big-stat"><span>Attempts</span><b id="aAttempts">0</b></div>
+        <div class="big-stat"><span>Average Percentage</span><b id="aAverage">0%</b></div>
+        <div class="big-stat"><span>Integrity Alerts</span><b id="aAlerts">0</b></div>
+      </div>
+      <div class="chart-card"><h3>Score Distribution</h3><div id="bars"></div></div>
+    </section>
+
+    <section id="monitoring" class="page">
+      <div class="section-head monitoring-heading"><div><span class="pill">INSTRUCTOR WORKSPACE</span><h2>Live examination monitoring</h2><p>Actual exam sessions and browser-reported events. Alerts are review signals, never automatic findings.</p></div><span id="monitorConnection" class="connection-pill">Connecting…</span></div>
+      <div class="stats monitoring-stats">
+        <div class="stat"><b id="activeCandidates">0</b><span>Active candidates</span></div>
+        <div class="stat"><b id="completedExams">0</b><span>Completed sessions</span></div>
+        <div class="stat"><b id="attentionCandidates">0</b><span>Need review</span></div>
+        <div class="stat"><b id="technicalIssues">0</b><span>Open technical issues</span></div>
+      </div>
+      <div class="monitor-toolbar"><label>Search candidate or exam<input id="candidateSearch" type="search" placeholder="Search…"></label><button id="refreshMonitoringButton" class="secondary" type="button">Refresh</button></div>
+      <div class="table-wrap monitoring-table"><div class="table-title"><div><h3>Candidate sessions</h3><p>Refreshes automatically while this page is open.</p></div></div><table><thead><tr><th>Candidate / exam</th><th>Status</th><th>Time remaining</th><th>Events</th><th>Latest signal</th></tr></thead><tbody id="candidateRows"><tr><td colspan="5">Loading actual session data…</td></tr></tbody></table></div>
+      <div class="table-wrap event-table"><div class="table-title"><div><h3>Recent monitoring events</h3><p>Evidence is limited to browser-reported signals and should be interpreted in context.</p></div><label>Severity<select id="eventSeverity"><option value="">All events</option><option value="high">High</option><option value="medium">Medium</option><option value="technical">Technical</option><option value="low">Low</option><option value="info">Informational</option></select></label></div><table><thead><tr><th>Time</th><th>Candidate / exam</th><th>Event</th><th>Severity</th><th>Review</th><th>Action</th></tr></thead><tbody id="eventRows"><tr><td colspan="6">No events yet.</td></tr></tbody></table></div>
+    </section>
+  </main>
+  <footer>Secure Digital Assessment Platform • Academic Project Demo</footer>
+  <script src="app.js"></script>
+</body>
+</html>
