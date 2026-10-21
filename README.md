@@ -33,11 +33,11 @@ Change these demo credentials before using the app with real users. There is no 
 
 - `PORT` — HTTP port (defaults to `3000`).
 - `ASSESSMENT_DB` — SQLite file path (defaults to `assessment.db` in the project directory).
-- `NODE_ENV=production` — marks the session cookie `Secure`; production deployment must use HTTPS. Configure TLS at the hosting platform or reverse proxy.
+- `NODE_ENV=production` — marks the session cookie `Secure`; production deployment must use HTTPS. Configure TLS at the hosting platform or reverse proxy. The demo credentials are compiled into the app's first-run seed; do not use this configuration for a public deployment without replacing the demo account provisioning.
 
 ## Vercel deployment
 
-The repository includes a Vercel Express function entry point and `vercel.json`. Import the repository into Vercel or run the Vercel CLI after authenticating, then deploy. Vercel uses ephemeral function storage; this project's SQLite file is placed in `/tmp` there, so application data can reset on cold starts and is not shared reliably between function instances. Use a managed persistent database before relying on deployed accounts, exams, sessions, or results. Do not use the demo credentials for a public deployment.
+The repository includes a Vercel Express function entry point and `vercel.json`. Import the repository into Vercel or run the Vercel CLI after authenticating, then deploy. Vercel uses ephemeral function storage; this project's SQLite file is placed in `/tmp` there, so application data can reset on cold starts and is not shared reliably between function instances. Use a managed persistent database before relying on deployed accounts, exams, sessions, or results. Do not use the demo credentials for a public deployment. Keep this GitHub repository private unless you intend to publish the source.
 
 The server creates the database tables and a sample examination on first launch. Existing table data is preserved. Existing plaintext passwords are migrated to `scrypt` hashes on startup.
 

@@ -9,7 +9,7 @@
     "test": "node --test"
   },
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",
